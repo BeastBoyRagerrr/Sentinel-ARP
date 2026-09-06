@@ -1,0 +1,5 @@
+scapy
+fastapi
+uvicorn
+psutil
+pytest
