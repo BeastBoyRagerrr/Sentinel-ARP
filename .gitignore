@@ -76,3 +76,6 @@ Thumbs.db
 sentinel.db
 sentinel.db-wal
 sentinel.db-shm
+
+# Packet capture demo files
+*.pcap
