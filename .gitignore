@@ -71,3 +71,8 @@ venv.bak/
 # Operating System Files
 .DS_Store
 Thumbs.db
+
+# SQLite database files
+sentinel.db
+sentinel.db-wal
+sentinel.db-shm
