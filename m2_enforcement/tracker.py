@@ -517,6 +517,15 @@ class BandwidthTracker:
             self._report_thread.join(timeout=2.0)
             self._report_thread = None
 
+    def _handle_packet(self, packet) -> None:
+        """Process one packet and return nothing.
+
+        Scapy's sniff() prints whatever its prn callback returns, and
+        process_packet returns the source IP, which would print one IP line per
+        packet and bury the bandwidth report. This wrapper discards the value.
+        """
+        self.process_packet(packet)
+
     def start_capture(
         self,
         interface: Optional[str] = None,
@@ -543,7 +552,7 @@ class BandwidthTracker:
                 print(f"[*] Reading packets from pcap file '{offline}'...")
                 sniff(
                     offline=offline,
-                    prn=self.process_packet,
+                    prn=self._handle_packet,
                     store=False,
                     count=packet_count,
                 )
@@ -553,7 +562,7 @@ class BandwidthTracker:
                 sniff(
                     iface=interface,
                     filter=bpf_filter,
-                    prn=self.process_packet,
+                    prn=self._handle_packet,
                     store=False,
                     count=packet_count,
                 )
